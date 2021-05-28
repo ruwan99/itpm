@@ -5,7 +5,10 @@
  */
 package com.itpm.ui;
 
+import com.itpm.controller.CommonController;
 import com.itpm.controller.LecturerController;
+import com.itpm.controller.StudentGroupController;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +25,8 @@ public class add_view_not_available_times_of_lecturers_groups_subgroups extends 
     public add_view_not_available_times_of_lecturers_groups_subgroups() {
         initComponents();
         loadLecToCombo();
+        loadGroupsToCombo();
+        loadSubGroupsToComboBox();
     }
 
     private void loadLecToCombo() {
@@ -31,9 +36,23 @@ public class add_view_not_available_times_of_lecturers_groups_subgroups extends 
             Logger.getLogger(add_view_not_available_times_of_lecturers_groups_subgroups.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void add(){
-    
+
+    private void loadGroupsToCombo() {
+        try {
+            ResultSet rset = StudentGroupController.getAllData();
+            CommonController.loadDataToComboBox(comboGroup, rset, "student_group_no");
+        } catch (SQLException ex) {
+            Logger.getLogger(add_view_not_available_times_of_lecturers_groups_subgroups.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void loadSubGroupsToComboBox() {
+        try {
+            ResultSet rset = StudentGroupController.getAllData();
+            CommonController.loadDataToComboBox(comboSubGroup, rset, "student_sub_group_no");
+        } catch (SQLException ex) {
+            Logger.getLogger(add_view_not_available_times_of_lecturers_groups_subgroups.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
