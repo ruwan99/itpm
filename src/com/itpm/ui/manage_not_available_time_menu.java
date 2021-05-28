@@ -95,7 +95,7 @@ public class manage_not_available_time_menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        new add_view_not_available_times_of_lecturers_groups_subgroups().setVisible(true);
+        new rk_add_view_not_available_times_of_lecturers_groups_subgroups().setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**

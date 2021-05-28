@@ -19,7 +19,6 @@ import java.sql.SQLException;
  */
 public class NotAvailableTimeAllocationDaoImpl implements NotAvailableTimeAllocationDao {
 
-    ///id, lecturer_name, group_name, sub_group_name, session_id_string, detail
     private String selectQuery = "select id, lecturer_name, group_name, sub_group_name, session_id_string, detail from not_available_time_allocations";
 
     @Override
@@ -56,7 +55,7 @@ public class NotAvailableTimeAllocationDaoImpl implements NotAvailableTimeAlloca
     @Override
     public boolean deleteNotAvailableTimeAllocation(int id) throws SQLException {
         Connection con = DatabaseConnection.getDatabaseConnection();
-        PreparedStatement ps = con.prepareStatement("delete from not_available_time_allocations set where id=?");
+        PreparedStatement ps = con.prepareStatement("delete from not_available_time_allocations where id=?");
         ps.setInt(1, id);
         ps.executeUpdate();
         ps.close();

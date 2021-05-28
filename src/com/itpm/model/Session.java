@@ -5,8 +5,6 @@
  */
 package com.itpm.model;
 
-import java.sql.Date;
-
 /**
  *
  * @author root_user

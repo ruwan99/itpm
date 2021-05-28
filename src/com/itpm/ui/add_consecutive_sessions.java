@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Anjula
+ * @author 
  */
 public class add_consecutive_sessions extends javax.swing.JFrame {
 

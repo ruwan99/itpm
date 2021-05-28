@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Anjula
+ * @author 
  */
 public class add_lecture_sessions extends javax.swing.JFrame {
 

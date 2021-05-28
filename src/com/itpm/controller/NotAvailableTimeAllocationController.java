@@ -59,4 +59,8 @@ public class NotAvailableTimeAllocationController {
         }
         return notAvailableTimeAllocation;
     }
+
+    public static boolean deleteRecord(int id) throws SQLException {
+        return new NotAvailableTimeAllocationDaoImpl().deleteNotAvailableTimeAllocation(id);
+    }
 }
