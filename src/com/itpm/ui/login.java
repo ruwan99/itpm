@@ -125,13 +125,13 @@ public class login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-//        if (txtUserName.getText().trim().equalsIgnoreCase("admin")
-//                && txtPw.getText().toString().equalsIgnoreCase("123")) {
-        new main_menu().setVisible(true);
-        this.dispose();
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Invalid Credentials", "Warning !", JOptionPane.ERROR_MESSAGE);
-//        }
+        if (txtUserName.getText().trim().equalsIgnoreCase("admin")
+                && txtPw.getText().toString().equalsIgnoreCase("123")) {
+            new main_menu().setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid Credentials", "Warning !", JOptionPane.ERROR_MESSAGE);
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
