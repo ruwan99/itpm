@@ -19,12 +19,12 @@ import java.sql.SQLException;
  */
 public class NotAvailableTimeRoomsImpl implements NotAvailableTimesRoomsDao {
 
-    private String selectQuery = "select id, room_name, day, start_time, end-time, detail from not_available_times_rooms";
+    private String selectQuery = "select id, room_name, day, start_time, end_time, detail from not_available_times_rooms";
 
     @Override
     public boolean addNotAvailableTimeRoom(NotAvailableTimesOfRoom availableTimesOfRoom) throws SQLException {
         Connection con = DatabaseConnection.getDatabaseConnection();
-        PreparedStatement ps = con.prepareStatement("insert into not_available_times_rooms(room_name, day, start_time, end-time, detail) values (?,?,?,?,?)");
+        PreparedStatement ps = con.prepareStatement("insert into not_available_times_rooms(room_name, day, start_time, end_time, detail) values (?,?,?,?,?)");
         ps.setString(1, availableTimesOfRoom.getRoomName());
         ps.setString(2, availableTimesOfRoom.getDay());
         ps.setString(3, availableTimesOfRoom.getStartTime());
@@ -38,7 +38,7 @@ public class NotAvailableTimeRoomsImpl implements NotAvailableTimesRoomsDao {
     @Override
     public boolean updateNotAvailableTimeRoom(NotAvailableTimesOfRoom availableTimesOfRoom) throws SQLException {
         Connection con = DatabaseConnection.getDatabaseConnection();
-        PreparedStatement ps = con.prepareStatement("update not_available_times_rooms set room_name=?, day=?, start_time=?, end-time=?, detail=? where id=?");
+        PreparedStatement ps = con.prepareStatement("update not_available_times_rooms set room_name=?, day=?, start_time=?, end_time=?, detail=? where id=?");
         ps.setString(1, availableTimesOfRoom.getRoomName());
         ps.setString(2, availableTimesOfRoom.getDay());
         ps.setString(3, availableTimesOfRoom.getStartTime());
