@@ -17,12 +17,12 @@ import java.util.logging.Logger;
  *
  * @author Anjula
  */
-public class statistic extends javax.swing.JFrame {
+public class hd_statistic extends javax.swing.JFrame {
 
     /**
      * Creates new form A
      */
-    public statistic() {
+    public hd_statistic() {
         initComponents();
         defaultMethod();
 
@@ -35,7 +35,7 @@ public class statistic extends javax.swing.JFrame {
             txtSubCount.setText(Integer.toString(SubjectController.getAlldataCount()));
             txtRoomCOunt.setText(Integer.toString(RoomController.getDataCount()));
         } catch (SQLException ex) {
-            Logger.getLogger(statistic.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(hd_statistic.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -61,7 +61,6 @@ public class statistic extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Statics Visualization");
-        setMaximumSize(new java.awt.Dimension(532, 730));
         setMinimumSize(new java.awt.Dimension(532, 730));
         setResizable(false);
 
@@ -213,14 +212,22 @@ public class statistic extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(statistic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(hd_statistic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(statistic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(hd_statistic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(statistic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(hd_statistic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(statistic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(hd_statistic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -233,7 +240,7 @@ public class statistic extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new statistic().setVisible(true);
+                new hd_statistic().setVisible(true);
             }
         });
     }
