@@ -19,14 +19,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Anjula
  */
-public class add_view_working_days_hours extends javax.swing.JFrame {
+public class rk_add_view_working_days_hours extends javax.swing.JFrame {
 
     int id;
 
     /**
      * Creates new form A
      */
-    public add_view_working_days_hours() {
+    public rk_add_view_working_days_hours() {
         initComponents();
         loadDataToTable();
     }
@@ -46,7 +46,7 @@ public class add_view_working_days_hours extends javax.swing.JFrame {
             spinnerMinutesPerday.setValue(workingDay.getMinutes());
             txtAmount.setText(workingDay.getDayAmount().toString());
         } catch (SQLException ex) {
-            Logger.getLogger(add_view_working_days_hours.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(rk_add_view_working_days_hours.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -67,7 +67,7 @@ public class add_view_working_days_hours extends javax.swing.JFrame {
             workday.setId(id);
             new WorkingDayDaoImpl().updateWorkingHoursAnddays(workday);
         } catch (SQLException ex) {
-            Logger.getLogger(add_view_working_days_hours.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(rk_add_view_working_days_hours.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -87,7 +87,7 @@ public class add_view_working_days_hours extends javax.swing.JFrame {
             workday.setSunday(chkSaturday.isSelected());
             new WorkingDayDaoImpl().addWorkingHoursAnddays(workday);
         } catch (SQLException ex) {
-            Logger.getLogger(add_view_working_days_hours.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(rk_add_view_working_days_hours.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -99,7 +99,7 @@ public class add_view_working_days_hours extends javax.swing.JFrame {
                 "working_day_no_work_days", "working_day_hours", "working_day_minutes", "working_day_amount"};
             CommonController.loadDataToTable(tblWorkingHours, rset, columnList);
         } catch (SQLException ex) {
-            Logger.getLogger(add_view_working_days_hours.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(rk_add_view_working_days_hours.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -125,7 +125,7 @@ public class add_view_working_days_hours extends javax.swing.JFrame {
                 new WorkingDayDaoImpl().deleteWorkingHoursAnddays(
                         Validations.getIntOrZeroFromString(dtm.getValueAt(selectedRw, 0).toString()));
             } catch (SQLException ex) {
-                Logger.getLogger(add_view_working_days_hours.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(rk_add_view_working_days_hours.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -165,9 +165,7 @@ public class add_view_working_days_hours extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Manage Working Days And Hours");
-        setMaximumSize(new java.awt.Dimension(1272, 681));
         setMinimumSize(new java.awt.Dimension(1272, 681));
-        setPreferredSize(new java.awt.Dimension(1272, 681));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 153));
@@ -387,14 +385,46 @@ public class add_view_working_days_hours extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(add_view_working_days_hours.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(rk_add_view_working_days_hours.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(add_view_working_days_hours.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(rk_add_view_working_days_hours.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(add_view_working_days_hours.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(rk_add_view_working_days_hours.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(add_view_working_days_hours.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(rk_add_view_working_days_hours.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -431,7 +461,7 @@ public class add_view_working_days_hours extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new add_view_working_days_hours().setVisible(true);
+                new rk_add_view_working_days_hours().setVisible(true);
             }
         });
     }

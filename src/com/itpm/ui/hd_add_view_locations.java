@@ -20,14 +20,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Anjula
  */
-public class add_view_locations extends javax.swing.JFrame {
+public class hd_add_view_locations extends javax.swing.JFrame {
 
     int id;
 
     /**
      * Creates new form A
      */
-    public add_view_locations() {
+    public hd_add_view_locations() {
         initComponents();
         loadDataToTable();
     }
@@ -44,7 +44,7 @@ public class add_view_locations extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Location created successfully !");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(add_view_locations.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(hd_add_view_locations.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -55,7 +55,7 @@ public class add_view_locations extends javax.swing.JFrame {
                 DefaultTableModel dtm = (DefaultTableModel) tblLocations.getModel();
                 new LocationDaoImpl().deleteLocation(Validations.getIntOrZeroFromString(dtm.getValueAt(selectedRaw, 0).toString()));
             } catch (SQLException ex) {
-                Logger.getLogger(add_view_locations.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(hd_add_view_locations.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -66,7 +66,7 @@ public class add_view_locations extends javax.swing.JFrame {
             String columnList[] = {"room_id", "room_related_building_name", "room_name", "room_type", "room_capacity"};
             CommonController.loadDataToTable(tblLocations, rset, columnList);
         } catch (SQLException ex) {
-            Logger.getLogger(add_view_locations.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(hd_add_view_locations.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -91,7 +91,7 @@ public class add_view_locations extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Location updated successfully !");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(add_view_locations.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(hd_add_view_locations.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -121,7 +121,6 @@ public class add_view_locations extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Manage Locations");
-        setMaximumSize(new java.awt.Dimension(1143, 734));
         setMinimumSize(new java.awt.Dimension(1143, 734));
         setResizable(false);
 
@@ -335,14 +334,46 @@ public class add_view_locations extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(add_view_locations.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(hd_add_view_locations.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(add_view_locations.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(hd_add_view_locations.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(add_view_locations.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(hd_add_view_locations.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(add_view_locations.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(hd_add_view_locations.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -379,7 +410,7 @@ public class add_view_locations extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new add_view_locations().setVisible(true);
+                new hd_add_view_locations().setVisible(true);
             }
         });
     }
