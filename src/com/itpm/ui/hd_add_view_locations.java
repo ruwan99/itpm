@@ -35,7 +35,7 @@ public class hd_add_view_locations extends javax.swing.JFrame {
     private void addLocation() {
         try {
             Location location = new Location();
-            location.setBuildingName(comboBuildingName.getSelectedItem().toString());
+            location.setBuildingName(txtBuildingName.getText());
             location.setRoomCapacity(Validations.getIntOrZeroFromString(txtCapacity.getText().trim()));
             location.setRoomName(txtRoomName.getText().trim());
             location.setRoomType(comboRoomType.getSelectedItem().toString());
@@ -72,8 +72,8 @@ public class hd_add_view_locations extends javax.swing.JFrame {
 
     private void clearData() {
         id = 0;
-        comboBuildingName.setSelectedItem("");
         txtRoomName.setText("");
+        txtBuildingName.setText("");
         comboRoomType.setSelectedItem("");
         txtCapacity.setText("");
     }
@@ -81,7 +81,7 @@ public class hd_add_view_locations extends javax.swing.JFrame {
     private void updateLocation() {
         try {
             Location location = new Location();
-            location.setBuildingName(comboBuildingName.getSelectedItem().toString());
+            location.setBuildingName(txtBuildingName.getText());
             location.setRoomCapacity(Validations.getIntOrZeroFromString(txtCapacity.getText().trim()));
             location.setRoomName(txtRoomName.getText().trim());
             location.setRoomType(comboRoomType.getSelectedItem().toString());
@@ -116,8 +116,8 @@ public class hd_add_view_locations extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblLocations = new javax.swing.JTable();
         btUpdate = new javax.swing.JButton();
-        comboBuildingName = new javax.swing.JComboBox<>();
         comboRoomType = new javax.swing.JComboBox<>();
+        txtBuildingName = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Manage Locations");
@@ -203,11 +203,10 @@ public class hd_add_view_locations extends javax.swing.JFrame {
             }
         });
 
-        comboBuildingName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        comboBuildingName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Building 1", "Building 2", "Building 3 " }));
-
         comboRoomType.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         comboRoomType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lecture Hall", "Laboratory" }));
+
+        txtBuildingName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -226,8 +225,8 @@ public class hd_add_view_locations extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtCapacity)
                             .addComponent(txtRoomName)
-                            .addComponent(comboBuildingName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comboRoomType, javax.swing.GroupLayout.Alignment.TRAILING, 0, 245, Short.MAX_VALUE)))
+                            .addComponent(comboRoomType, javax.swing.GroupLayout.Alignment.TRAILING, 0, 245, Short.MAX_VALUE)
+                            .addComponent(txtBuildingName)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -244,10 +243,10 @@ public class hd_add_view_locations extends javax.swing.JFrame {
                 .addGap(49, 49, 49)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboBuildingName, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                            .addComponent(txtBuildingName))
+                        .addGap(27, 27, 27)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtRoomName, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -310,7 +309,7 @@ public class hd_add_view_locations extends javax.swing.JFrame {
         if (selectedRaw != -1) {
             DefaultTableModel dtm = (DefaultTableModel) tblLocations.getModel();
             id = Validations.getIntOrZeroFromString(dtm.getValueAt(selectedRaw, 0).toString());
-            comboBuildingName.setSelectedItem(dtm.getValueAt(selectedRaw, 1).toString());
+            txtBuildingName.setText(dtm.getValueAt(selectedRaw, 1).toString());
             txtRoomName.setText(dtm.getValueAt(selectedRaw, 2).toString());
             comboRoomType.setSelectedItem(dtm.getValueAt(selectedRaw, 3).toString());
             txtCapacity.setText(dtm.getValueAt(selectedRaw, 4).toString());
@@ -419,7 +418,6 @@ public class hd_add_view_locations extends javax.swing.JFrame {
     private javax.swing.JButton btDelete;
     private javax.swing.JButton btSave;
     private javax.swing.JButton btUpdate;
-    private javax.swing.JComboBox<String> comboBuildingName;
     private javax.swing.JComboBox<String> comboRoomType;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -428,6 +426,7 @@ public class hd_add_view_locations extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblLocations;
+    private javax.swing.JTextField txtBuildingName;
     private javax.swing.JTextField txtCapacity;
     private javax.swing.JTextField txtRoomName;
     // End of variables declaration//GEN-END:variables
