@@ -7,10 +7,14 @@ package com.itpm.ui;
 
 import com.itpm.controller.CommonController;
 import com.itpm.controller.NotAvailableTimeRoomController;
+import com.itpm.controller.RoomController;
+import com.itpm.core.Validations;
+import com.itpm.model.NotAvailableTimesOfRoom;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,12 +22,24 @@ import java.util.logging.Logger;
  */
 public class rk_add_not_available_times_of_rooms extends javax.swing.JFrame {
 
+    private int primaryKey = 0;
+
     /**
      * Creates new form A
      */
     public rk_add_not_available_times_of_rooms() {
         initComponents();
         getAll();
+        loadDataToDropDown();
+    }
+
+    private void loadDataToDropDown() {
+        try {
+            ResultSet rset = RoomController.getAllData();
+            CommonController.loadDataToComboBox(comboRooms, rset, "room_name");
+        } catch (SQLException ex) {
+            Logger.getLogger(rk_add_not_available_times_of_rooms.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void getAll() {
@@ -38,10 +54,57 @@ public class rk_add_not_available_times_of_rooms extends javax.swing.JFrame {
 
     private void addData() {
         try {
-            NotAvailableTimeRoomController.addRecord(txtRoomName.getText().trim(), comboDay.getSelectedItem().toString(),
+            NotAvailableTimeRoomController.addRecord(comboRooms.getSelectedItem().toString(), comboDay.getSelectedItem().toString(),
                     txtStartTime.getText().trim(), txtEndTime.getText().trim(), "");
         } catch (SQLException ex) {
             Logger.getLogger(rk_add_not_available_times_of_rooms.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void updateData() {
+        try {
+            NotAvailableTimeRoomController.updateRecord(comboRooms.getSelectedItem().toString(), comboDay.getSelectedItem().toString(),
+                    txtStartTime.getText().trim(), txtEndTime.getText().trim(), "", primaryKey);
+        } catch (SQLException ex) {
+            Logger.getLogger(rk_add_not_available_times_of_rooms.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void editData() {
+        try {
+            DefaultTableModel dtm = (DefaultTableModel) tblData.getModel();
+            int selectedRw = tblData.getSelectedRow();
+            if (selectedRw != -1) {
+                int id = Validations.getIntOrZeroFromString(dtm.getValueAt(selectedRw, 0).toString());
+                NotAvailableTimesOfRoom notAvailableTimesOfRoom = NotAvailableTimeRoomController.getObjectById(id);
+                comboRooms.setSelectedItem(notAvailableTimesOfRoom.getRoomName());
+                comboDay.setSelectedItem(notAvailableTimesOfRoom.getDay());
+                txtEndTime.setText(notAvailableTimesOfRoom.getEndTime());
+                txtStartTime.setText(notAvailableTimesOfRoom.getStartTime());
+                primaryKey = notAvailableTimesOfRoom.getId();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(rk_add_not_available_times_of_rooms.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void clearData() {
+        comboDay.setSelectedIndex(1);
+        comboRooms.setSelectedIndex(1);
+        txtEndTime.setText("");
+        txtStartTime.setText("");
+    }
+
+    private void deleteRecord() {
+        DefaultTableModel dtm = (DefaultTableModel) tblData.getModel();
+        int selectedRw = tblData.getSelectedRow();
+        if (selectedRw != -1) {
+            try {
+                int id = Validations.getIntOrZeroFromString(dtm.getValueAt(selectedRw, 0).toString());
+                NotAvailableTimeRoomController.deleteRecord(id);
+            } catch (SQLException ex) {
+                Logger.getLogger(rk_add_not_available_times_of_rooms.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -62,12 +125,14 @@ public class rk_add_not_available_times_of_rooms extends javax.swing.JFrame {
         btAdd = new javax.swing.JButton();
         comboDay = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        txtRoomName = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtStartTime = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblData = new javax.swing.JTable();
         btDelete = new javax.swing.JButton();
+        comboRooms = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add Not Avaliable Times Of Rooms");
@@ -91,6 +156,11 @@ public class rk_add_not_available_times_of_rooms extends javax.swing.JFrame {
 
         btEdit.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btEdit.setText("Edit");
+        btEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEditActionPerformed(evt);
+            }
+        });
 
         btAdd.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btAdd.setText("Add Session");
@@ -101,19 +171,13 @@ public class rk_add_not_available_times_of_rooms extends javax.swing.JFrame {
         });
 
         comboDay.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        comboDay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" }));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("End Time");
 
-        txtRoomName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtRoomName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRoomNameActionPerformed(evt);
-            }
-        });
-
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setText("Start Time");
+        jLabel7.setText("(hh:mm)");
 
         txtStartTime.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txtStartTime.addActionListener(new java.awt.event.ActionListener() {
@@ -151,6 +215,19 @@ public class rk_add_not_available_times_of_rooms extends javax.swing.JFrame {
 
         btDelete.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btDelete.setText("Delete");
+        btDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDeleteActionPerformed(evt);
+            }
+        });
+
+        comboRooms.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel8.setText("Start Time");
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setText("(hh:mm)");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -167,24 +244,30 @@ public class rk_add_not_available_times_of_rooms extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtStartTime, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(210, 210, 210)
+                                .addComponent(btAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(comboDay, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtRoomName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(btAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtStartTime, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                                    .addComponent(comboDay, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(comboRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 652, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(36, 36, 36))
         );
@@ -203,20 +286,24 @@ public class rk_add_not_available_times_of_rooms extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtRoomName, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
+                            .addComponent(comboRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(37, 37, 37)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(comboDay, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(34, 34, 34)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtStartTime, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(33, 33, 33)
+                            .addComponent(txtStartTime, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtEndTime, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(76, 76, 76)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
                         .addComponent(btAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -240,18 +327,29 @@ public class rk_add_not_available_times_of_rooms extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEndTimeActionPerformed
 
-    private void txtRoomNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRoomNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtRoomNameActionPerformed
-
     private void txtStartTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStartTimeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtStartTimeActionPerformed
 
     private void btAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddActionPerformed
-        addData();
+        if (primaryKey == 0) {
+            addData();
+        } else {
+            updateData();
+        }
+        primaryKey = 0;
         getAll();
+        clearData();
     }//GEN-LAST:event_btAddActionPerformed
+
+    private void btEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditActionPerformed
+        editData();
+    }//GEN-LAST:event_btEditActionPerformed
+
+    private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteActionPerformed
+        deleteRecord();
+        getAll();
+    }//GEN-LAST:event_btDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2340,15 +2438,17 @@ public class rk_add_not_available_times_of_rooms extends javax.swing.JFrame {
     private javax.swing.JButton btDelete;
     private javax.swing.JButton btEdit;
     private javax.swing.JComboBox<String> comboDay;
+    private javax.swing.JComboBox<String> comboRooms;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblData;
     private javax.swing.JTextField txtEndTime;
-    private javax.swing.JTextField txtRoomName;
     private javax.swing.JTextField txtStartTime;
     // End of variables declaration//GEN-END:variables
 }

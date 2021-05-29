@@ -5,6 +5,7 @@
  */
 package com.itpm.controller;
 
+import com.itpm.core.CommonConstants;
 import com.itpm.dao.impl.NotAvailableTimeRoomsImpl;
 import com.itpm.model.NotAvailableTimesOfRoom;
 import java.sql.ResultSet;
@@ -48,6 +49,21 @@ public class NotAvailableTimeRoomController {
 
     public static ResultSet getOneByAttribute(String attribute, String condition, String value) throws SQLException {
         return new NotAvailableTimeRoomsImpl().getRecordByOneAttribute(attribute, condition, value);
+    }
+
+    public static NotAvailableTimesOfRoom getObjectById(int id) throws SQLException {
+        NotAvailableTimesOfRoom availableTimesOfRoom = null;
+        ResultSet rset = getOneByAttribute("id", CommonConstants.sql.EQUAL, Integer.toString(id));
+        while (rset.next()) {
+            availableTimesOfRoom = new NotAvailableTimesOfRoom();
+            availableTimesOfRoom.setId(rset.getInt("id"));
+            availableTimesOfRoom.setStartTime(rset.getString("start_time"));
+            availableTimesOfRoom.setRoomName(rset.getString("room_name"));
+            availableTimesOfRoom.setDay(rset.getString("day"));
+            availableTimesOfRoom.setEndTime(rset.getString("end_time"));
+            availableTimesOfRoom.setDetail(rset.getString("detail"));
+        }
+        return availableTimesOfRoom;
     }
 
 }
