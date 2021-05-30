@@ -169,7 +169,7 @@ public class add_view_student_groups extends javax.swing.JFrame {
         txtAcademicYrSem.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         comboProgram.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        comboProgram.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Programme 1 ", "Programme 2", "Programme 3", "Programme 4", "Programme 5", "Programme 6", "Programme 7", " " }));
+        comboProgram.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "IT", "CSSE", "IM", "CSE", " " }));
 
         spinnerGroupNo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
