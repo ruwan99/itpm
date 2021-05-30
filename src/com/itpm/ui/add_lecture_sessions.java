@@ -7,6 +7,8 @@ package com.itpm.ui;
 
 import com.itpm.controller.CommonController;
 import com.itpm.controller.LectureSessionController;
+import com.itpm.controller.StudentGroupController;
+import com.itpm.controller.SubjectController;
 import com.itpm.core.Validations;
 import com.itpm.model.LectureSession;
 import java.sql.ResultSet;
@@ -17,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author 
+ * @author
  */
 public class add_lecture_sessions extends javax.swing.JFrame {
 
@@ -29,6 +31,8 @@ public class add_lecture_sessions extends javax.swing.JFrame {
     public add_lecture_sessions() {
         initComponents();
         loadDataToTable();
+        loadDataToSubjectCombo();
+        loadDataToGroupCombo();
     }
 
     private void loadDataToTable() {
@@ -36,6 +40,15 @@ public class add_lecture_sessions extends javax.swing.JFrame {
             ResultSet rset = LectureSessionController.getAllLectureSessions();
             String[] columnList = {"lecture_session_id", "lecture_session_group_name", "lecture_session_detail", "lecture_session_no_of_students", "lecture_session_duration"};
             CommonController.loadDataToTable(tblLectureSessions, rset, columnList);
+        } catch (SQLException ex) {
+            Logger.getLogger(add_lecture_sessions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void loadDataToGroupCombo() {
+        try {
+            ResultSet rset = StudentGroupController.getAllData();
+            CommonController.loadDataToComboBox(comboGroup, rset, "student_group_no");
         } catch (SQLException ex) {
             Logger.getLogger(add_lecture_sessions.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -55,13 +68,35 @@ public class add_lecture_sessions extends javax.swing.JFrame {
                 int idd = Validations.getIntOrZeroFromString(dtm.getValueAt(selectedRaw, 0).toString());
                 this.id = idd;
                 LectureSession lectureSes = LectureSessionController.getLectureSessionObjectById(idd);
-                txtGroup.setText(lectureSes.getGroupName());
-                txtSubject.setText(lectureSes.getDetail());
+                comboGroup.setSelectedItem(lectureSes.getGroupName());
+                comboSubject.setSelectedItem(lectureSes.getDetail());
                 txtStudentCount.setText(lectureSes.getNoOfStudents());
                 txtHours.setText(lectureSes.getDuration());
             } catch (SQLException ex) {
                 Logger.getLogger(add_lecture_sessions.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+    }
+
+    private void deleteRecord() {
+        DefaultTableModel dtm = (DefaultTableModel) tblLectureSessions.getModel();
+        int selectedRaw = tblLectureSessions.getSelectedRow();
+        if (selectedRaw != -1) {
+            try {
+                int idd = Validations.getIntOrZeroFromString(dtm.getValueAt(selectedRaw, 0).toString());
+                LectureSessionController.deleteLectureSession(idd);
+            } catch (SQLException ex) {
+                Logger.getLogger(add_lecture_sessions.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private void loadDataToSubjectCombo() {
+        try {
+            ResultSet rset = SubjectController.getAllSubjects();
+            CommonController.loadDataToComboBox(comboSubject, rset, "subject_name");
+        } catch (SQLException ex) {
+            Logger.getLogger(add_lecture_sessions.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -87,8 +122,8 @@ public class add_lecture_sessions extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblLectureSessions = new javax.swing.JTable();
-        txtSubject = new javax.swing.JTextField();
-        txtGroup = new javax.swing.JTextField();
+        comboGroup = new javax.swing.JComboBox<>();
+        comboSubject = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add Session");
@@ -173,19 +208,9 @@ public class add_lecture_sessions extends javax.swing.JFrame {
             tblLectureSessions.getColumnModel().getColumn(0).setMaxWidth(0);
         }
 
-        txtSubject.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtSubject.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSubjectActionPerformed(evt);
-            }
-        });
+        comboGroup.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        txtGroup.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtGroup.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtGroupActionPerformed(evt);
-            }
-        });
+        comboSubject.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -194,34 +219,35 @@ public class add_lecture_sessions extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSubject, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(40, 40, 40)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtStudentCount, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(btSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtHours, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtHours, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(comboGroup, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(comboSubject, 0, 206, Short.MAX_VALUE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtStudentCount, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(40, 40, 40)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -232,12 +258,12 @@ public class add_lecture_sessions extends javax.swing.JFrame {
                         .addGap(50, 50, 50)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(comboGroup, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(26, 26, 26)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSubject, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
+                            .addComponent(comboSubject, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtStudentCount, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -284,8 +310,8 @@ public class add_lecture_sessions extends javax.swing.JFrame {
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
         if (id == 0) {
             try {
-                LectureSessionController.addLectureSession(txtGroup.getText().trim(),
-                        txtSubject.getText().trim(), txtStudentCount.getText().trim(),
+                LectureSessionController.addLectureSession(comboGroup.getSelectedItem().toString(),
+                        comboSubject.getSelectedItem().toString(), txtStudentCount.getText().trim(),
                         txtHours.getText().trim());
                 loadDataToTable();
             } catch (SQLException ex) {
@@ -293,8 +319,8 @@ public class add_lecture_sessions extends javax.swing.JFrame {
             }
         } else {
             try {
-                LectureSessionController.updateLectureSessions(id, txtGroup.getText().trim(),
-                        txtSubject.getText().trim(), txtStudentCount.getText().trim(),
+                LectureSessionController.updateLectureSessions(id, comboGroup.getSelectedItem().toString(),
+                        comboSubject.getSelectedItem().toString(), txtStudentCount.getText().trim(),
                         txtHours.getText().trim());
                 loadDataToTable();
             } catch (SQLException ex) {
@@ -304,25 +330,14 @@ public class add_lecture_sessions extends javax.swing.JFrame {
         id = 0;
     }//GEN-LAST:event_btSaveActionPerformed
 
-    private void txtSubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSubjectActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSubjectActionPerformed
-
-    private void txtGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGroupActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtGroupActionPerformed
-
     private void btEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditActionPerformed
         setData();
 
     }//GEN-LAST:event_btEditActionPerformed
 
     private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteActionPerformed
-        DefaultTableModel dtm = (DefaultTableModel) tblLectureSessions.getModel();
-        int selectedRaw = tblLectureSessions.getSelectedRow();
-        if (selectedRaw != -1) {
-
-        }
+        deleteRecord();
+        loadDataToTable();
     }//GEN-LAST:event_btDeleteActionPerformed
 
     /**
@@ -1387,6 +1402,8 @@ public class add_lecture_sessions extends javax.swing.JFrame {
     private javax.swing.JButton btDelete;
     private javax.swing.JButton btEdit;
     private javax.swing.JButton btSave;
+    private javax.swing.JComboBox<String> comboGroup;
+    private javax.swing.JComboBox<String> comboSubject;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
@@ -1395,9 +1412,7 @@ public class add_lecture_sessions extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblLectureSessions;
-    private javax.swing.JTextField txtGroup;
     private javax.swing.JTextField txtHours;
     private javax.swing.JTextField txtStudentCount;
-    private javax.swing.JTextField txtSubject;
     // End of variables declaration//GEN-END:variables
 }
