@@ -255,7 +255,7 @@ public class mt_add_view_subjects extends javax.swing.JFrame {
         txtSubjectName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         comboOfferedYear.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        comboOfferedYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028" }));
+        comboOfferedYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Y 1 ", "Y 2 ", "Y 3 ", "Y 4" }));
 
         buttonGroup1.add(radioSemster1);
         radioSemster1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
