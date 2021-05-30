@@ -7,19 +7,25 @@ package com.itpm.ui;
 
 import com.itpm.controller.CommonController;
 import com.itpm.controller.LecturerController;
+import com.itpm.controller.ManageSessionController;
 import com.itpm.controller.RoomController;
 import com.itpm.controller.SubjectController;
 import com.itpm.controller.TagController;
+import com.itpm.core.Validations;
+import com.itpm.model.ManageSessionRoom;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Anjula
  */
 public class hd_manage_session_rooms extends javax.swing.JFrame {
+
+    private int primaryKey = 0;
 
     /**
      * Creates new form A
@@ -30,6 +36,7 @@ public class hd_manage_session_rooms extends javax.swing.JFrame {
         loadDataToSubjectCombo();
         loadDataToTagsCombo();
         loadDataToRoomsCombo();
+        loadDataToTable();
     }
 
     private void loadLecturersToCombo() {
@@ -67,8 +74,64 @@ public class hd_manage_session_rooms extends javax.swing.JFrame {
             Logger.getLogger(hd_manage_session_rooms.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void saveData(){
-        
+
+    private void saveData() {
+        try {
+            ManageSessionController.addRecord(comboLecturer.getSelectedItem().toString(), comboSubject.getSelectedItem().toString(),
+                    comboTag.getSelectedItem().toString(), comboRoom.getSelectedItem().toString());
+        } catch (SQLException ex) {
+            Logger.getLogger(hd_manage_session_rooms.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void loadDataToTable() {
+        try {
+            ResultSet rset = ManageSessionController.getAllData();
+            String[] columnList = {"id", "lecturer_name", "subject_name", "tag_name", "room_name"};
+            CommonController.loadDataToTable(tblData, rset, columnList);
+        } catch (SQLException ex) {
+            Logger.getLogger(hd_manage_session_rooms.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void editData() {
+        DefaultTableModel dtm = (DefaultTableModel) tblData.getModel();
+        int selectedRw = tblData.getSelectedRow();
+        if (selectedRw != -1) {
+            try {
+                int id = Validations.getIntOrZeroFromString(dtm.getValueAt(selectedRw, 0).toString());
+                ManageSessionRoom manageSessionRoom = ManageSessionController.getObjectById(id);
+                comboLecturer.setSelectedItem(manageSessionRoom.getLecturerName());
+                comboRoom.setSelectedItem(manageSessionRoom.getRoomName());
+                comboSubject.setSelectedItem(manageSessionRoom.getSujectName());
+                comboTag.setSelectedItem(manageSessionRoom.getTagName());
+                primaryKey = manageSessionRoom.getId();
+            } catch (SQLException ex) {
+                Logger.getLogger(hd_manage_session_rooms.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private void updateData() {
+        try {
+            ManageSessionController.updateRecord(comboLecturer.getSelectedItem().toString(), comboSubject.getSelectedItem().toString(),
+                    comboTag.getSelectedItem().toString(), comboRoom.getSelectedItem().toString(), primaryKey);
+        } catch (SQLException ex) {
+            Logger.getLogger(hd_manage_session_rooms.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void deleteRecord() {
+        DefaultTableModel dtm = (DefaultTableModel) tblData.getModel();
+        int selectedRw = tblData.getSelectedRow();
+        if (selectedRw != -1) {
+            try {
+                int id = Validations.getIntOrZeroFromString(dtm.getValueAt(selectedRw, 0).toString());
+                ManageSessionController.deleteRecord(id);
+            } catch (SQLException ex) {
+                Logger.getLogger(hd_manage_session_rooms.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     /**
@@ -128,10 +191,23 @@ public class hd_manage_session_rooms extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Lecturer", "Subject", "Tag", "Room"
+                "id", "Lecturer", "Subject", "Tag", "Room"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tblData);
+        if (tblData.getColumnModel().getColumnCount() > 0) {
+            tblData.getColumnModel().getColumn(0).setMinWidth(0);
+            tblData.getColumnModel().getColumn(0).setPreferredWidth(0);
+            tblData.getColumnModel().getColumn(0).setMaxWidth(0);
+        }
 
         comboTag.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
@@ -142,9 +218,19 @@ public class hd_manage_session_rooms extends javax.swing.JFrame {
 
         btDelete.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btDelete.setText("Delete");
+        btDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDeleteActionPerformed(evt);
+            }
+        });
 
         btEdit.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btEdit.setText("Edit");
+        btEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEditActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -222,8 +308,23 @@ public class hd_manage_session_rooms extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        // TODO add your handling code here:
+        if (primaryKey == 0) {
+            saveData();
+        } else {
+            updateData();
+        }
+        loadDataToTable();
+        primaryKey = 0;
     }//GEN-LAST:event_btSaveActionPerformed
+
+    private void btEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditActionPerformed
+        editData();
+    }//GEN-LAST:event_btEditActionPerformed
+
+    private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteActionPerformed
+        deleteRecord();
+        loadDataToTable();
+    }//GEN-LAST:event_btDeleteActionPerformed
 
     /**
      * @param args the command line arguments
