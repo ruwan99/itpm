@@ -33,7 +33,7 @@ public class mt_manage_session_time_menu extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Add Session");
+        setTitle("Add Non Overlapping Sessions");
         setMinimumSize(new java.awt.Dimension(100, 100));
         setResizable(false);
 
@@ -111,7 +111,7 @@ public class mt_manage_session_time_menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        new mt_add_non_overlapping_sessions().setVisible(true);
+        new mt_add_non_overlapping_sessions_3().setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
