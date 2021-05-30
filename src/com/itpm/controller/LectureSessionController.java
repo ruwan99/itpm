@@ -18,22 +18,24 @@ import java.sql.SQLException;
 public class LectureSessionController {
 
     public static boolean addLectureSession(String group,
-            String subject, String studentCount, String duration) throws SQLException {
+            String subject, String studentCount, String duration, String generatedSesName) throws SQLException {
         LectureSession lecSes = new LectureSession();
         lecSes.setDetail(subject);
         lecSes.setGroupName(group);
         lecSes.setDuration(duration);
         lecSes.setNoOfStudents(studentCount);
+        lecSes.setGeneratedSessionName(generatedSesName);
         return new LectureSessionDaoImpl().addLectureSession(lecSes);
     }
 
     public static boolean updateLectureSessions(int id, String group,
-            String subject, String studentCount, String duration) throws SQLException {
+            String subject, String studentCount, String duration, String generatedSessionName) throws SQLException {
         LectureSession lecSes = new LectureSession();
         lecSes.setDetail(subject);
         lecSes.setGroupName(group);
         lecSes.setDuration(duration);
         lecSes.setNoOfStudents(studentCount);
+        lecSes.setGeneratedSessionName(generatedSessionName);
         lecSes.setId(id);
         return new LectureSessionDaoImpl().updateLectureSession(lecSes);
     }
@@ -57,6 +59,7 @@ public class LectureSessionController {
             lecSes.setDuration(rset.getString("lecture_session_duration"));
             lecSes.setNoOfStudents(rset.getString("lecture_session_no_of_students"));
             lecSes.setDetail(rset.getString("lecture_session_detail"));
+            lecSes.setGeneratedSessionName(rset.getString("lecture_sessions_generated_ses_name"));
         }
         return lecSes;
     }

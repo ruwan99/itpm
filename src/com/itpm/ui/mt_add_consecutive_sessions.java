@@ -7,6 +7,7 @@ package com.itpm.ui;
 
 import com.itpm.controller.CommonController;
 import com.itpm.controller.SessionManagementController;
+import com.itpm.controller.TagController;
 import com.itpm.core.CommonConstants;
 import com.itpm.core.Validations;
 import com.itpm.dao.impl.SessionsDaoImpl;
@@ -19,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author 
+ * @author
  */
 public class mt_add_consecutive_sessions extends javax.swing.JFrame {
 
@@ -31,16 +32,18 @@ public class mt_add_consecutive_sessions extends javax.swing.JFrame {
     public mt_add_consecutive_sessions() {
         initComponents();
         loadDataToTable();
+        loadDataToTagsDropDown();
     }
 
-    /*
-    , consecutive_sessions_tag_id, , 
-    , , , 
-    , , , 
-    , consecutive_sessions_status, consecutive_sessions_detail, 
-    consecutive_sessions_session_type, consecutive_sessions_session_id, consecutive_sessions_session_id_string, 
-    consecutive_sessions_category, consecutive_sessions_module
-     */
+    private void loadDataToTagsDropDown() {
+        try {
+            ResultSet rset = TagController.getAllTags();
+            CommonController.loadDataToComboBox(comboTags, rset, "tag_name");
+        } catch (SQLException ex) {
+            Logger.getLogger(mt_add_consecutive_sessions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void loadSessionsToCombo() {
         try {
             ResultSet rset = new SessionsDaoImpl().getAllSessions();
@@ -71,7 +74,7 @@ public class mt_add_consecutive_sessions extends javax.swing.JFrame {
                 int id = Validations.getIntOrZeroFromString(dtm.getValueAt(selectedRaw, 0).toString());
                 Session ses = SessionManagementController.getSessionBySessionId(id);
                 this.id = id;
-                txtTagName.setText(ses.getTagName());
+                comboTags.setSelectedItem(ses.getTagName());
                 comboDay.setSelectedItem(ses.getDay());
                 comboStartHour.setSelectedItem(ses.getStartTimeHour());
                 comboStartMin.setSelectedItem(ses.getStartTimeMinutes());
@@ -107,11 +110,11 @@ public class mt_add_consecutive_sessions extends javax.swing.JFrame {
         comboEndHour = new javax.swing.JComboBox<>();
         comboEndMinutes = new javax.swing.JComboBox<>();
         comboStartAmPm = new javax.swing.JComboBox<>();
-        txtTagName = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSessionData = new javax.swing.JTable();
         btDelete = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        comboTags = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add Consecutive Sessions");
@@ -166,8 +169,6 @@ public class mt_add_consecutive_sessions extends javax.swing.JFrame {
         comboStartAmPm.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         comboStartAmPm.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AM", "PM" }));
 
-        txtTagName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-
         tblSessionData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -205,6 +206,8 @@ public class mt_add_consecutive_sessions extends javax.swing.JFrame {
             }
         });
 
+        comboTags.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -222,8 +225,8 @@ public class mt_add_consecutive_sessions extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(comboDay, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtTagName, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 779, Short.MAX_VALUE)
+                                        .addComponent(comboTags, 0, 225, Short.MAX_VALUE)
+                                        .addGap(684, 684, 684)
                                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -262,7 +265,7 @@ public class mt_add_consecutive_sessions extends javax.swing.JFrame {
                         .addGap(23, 23, 23)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTagName, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(comboTags, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -312,7 +315,7 @@ public class mt_add_consecutive_sessions extends javax.swing.JFrame {
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
         if (id != 0) {
             try {
-                SessionManagementController.updateSession(id, "", txtTagName.getText().trim(),
+                SessionManagementController.updateSession(id, "", comboTags.getSelectedItem().toString(),
                         comboDay.getSelectedItem().toString(),
                         comboStartHour.getSelectedItem().toString(),
                         comboStartMin.getSelectedItem().toString(),
@@ -327,7 +330,7 @@ public class mt_add_consecutive_sessions extends javax.swing.JFrame {
             id = 0;
         } else {
             try {
-                SessionManagementController.addSession("", txtTagName.getText().trim(),
+                SessionManagementController.addSession("", comboTags.getSelectedItem().toString(),
                         comboDay.getSelectedItem().toString(),
                         comboStartHour.getSelectedItem().toString(),
                         comboStartMin.getSelectedItem().toString(),
@@ -666,6 +669,7 @@ public class mt_add_consecutive_sessions extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboStartAmPm;
     private javax.swing.JComboBox<String> comboStartHour;
     private javax.swing.JComboBox<String> comboStartMin;
+    private javax.swing.JComboBox<String> comboTags;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -674,6 +678,5 @@ public class mt_add_consecutive_sessions extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblSessionData;
-    private javax.swing.JTextField txtTagName;
     // End of variables declaration//GEN-END:variables
 }

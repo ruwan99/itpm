@@ -23,7 +23,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class add_lecture_sessions extends javax.swing.JFrame {
 
-    int id = 0;
+    private int id = 0;
+    private String generatedSessionName = "";
 
     /**
      * Creates new form A
@@ -72,6 +73,7 @@ public class add_lecture_sessions extends javax.swing.JFrame {
                 comboSubject.setSelectedItem(lectureSes.getDetail());
                 txtStudentCount.setText(lectureSes.getNoOfStudents());
                 txtHours.setText(lectureSes.getDuration());
+                generatedSessionName = lectureSes.getGeneratedSessionName();
             } catch (SQLException ex) {
                 Logger.getLogger(add_lecture_sessions.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -310,9 +312,12 @@ public class add_lecture_sessions extends javax.swing.JFrame {
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
         if (id == 0) {
             try {
+                generatedSessionName = comboGroup.getSelectedItem().toString() + " / "
+                        + comboSubject.getSelectedItem().toString() + " / "
+                        + txtStudentCount.getText().trim() + " / " + txtHours.getText().trim();
                 LectureSessionController.addLectureSession(comboGroup.getSelectedItem().toString(),
                         comboSubject.getSelectedItem().toString(), txtStudentCount.getText().trim(),
-                        txtHours.getText().trim());
+                        txtHours.getText().trim(), generatedSessionName);
                 loadDataToTable();
             } catch (SQLException ex) {
                 Logger.getLogger(add_lecture_sessions.class.getName()).log(Level.SEVERE, null, ex);
@@ -321,12 +326,13 @@ public class add_lecture_sessions extends javax.swing.JFrame {
             try {
                 LectureSessionController.updateLectureSessions(id, comboGroup.getSelectedItem().toString(),
                         comboSubject.getSelectedItem().toString(), txtStudentCount.getText().trim(),
-                        txtHours.getText().trim());
+                        txtHours.getText().trim(), generatedSessionName);
                 loadDataToTable();
             } catch (SQLException ex) {
                 Logger.getLogger(add_lecture_sessions.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        generatedSessionName = "";
         id = 0;
     }//GEN-LAST:event_btSaveActionPerformed
 

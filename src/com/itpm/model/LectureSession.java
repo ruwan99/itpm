@@ -17,6 +17,8 @@ public class LectureSession {
     private String noOfStudents;
     private String duration;
     private String detail;
+    private String generatedSessionName;
+    
 
     /**
      * @return the id
@@ -100,6 +102,20 @@ public class LectureSession {
      */
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    /**
+     * @return the generatedSessionName
+     */
+    public String getGeneratedSessionName() {
+        return generatedSessionName;
+    }
+
+    /**
+     * @param generatedSessionName the generatedSessionName to set
+     */
+    public void setGeneratedSessionName(String generatedSessionName) {
+        this.generatedSessionName = generatedSessionName;
     }
 
 }

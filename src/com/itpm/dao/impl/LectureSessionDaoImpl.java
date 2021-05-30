@@ -20,19 +20,21 @@ import java.sql.SQLException;
 public class LectureSessionDaoImpl implements LectureSessionDao {
 
     private String selectQuery = "select lecture_session_id, lecture_session_group_id, "
-            + " lecture_session_group_name, lecture_session_no_of_students, lecture_session_duration, lecture_session_detail from lecture_sessions";
+            + " lecture_session_group_name, lecture_session_no_of_students, lecture_session_duration, lecture_session_detail, "
+            + "lecture_sessions_generated_ses_name from lecture_sessions";
 
     @Override
     public boolean addLectureSession(LectureSession lectureSession) throws SQLException {
         Connection con = DatabaseConnection.getDatabaseConnection();
         PreparedStatement ps = con.prepareStatement("insert into lecture_sessions(lecture_session_group_id,"
                 + " lecture_session_group_name, lecture_session_no_of_students, lecture_session_duration,"
-                + " lecture_session_detail) values (?,?,?,?,?)");
+                + " lecture_session_detail, lecture_sessions_generated_ses_name) values (?,?,?,?,?,?)");
         ps.setInt(1, lectureSession.getGroupId());
         ps.setString(2, lectureSession.getGroupName());
         ps.setString(3, lectureSession.getNoOfStudents());
         ps.setString(4, lectureSession.getDuration());
         ps.setString(5, lectureSession.getDetail());
+        ps.setString(6, lectureSession.getGeneratedSessionName());
         ps.executeUpdate();
         ps.close();
         return true;
@@ -43,13 +45,14 @@ public class LectureSessionDaoImpl implements LectureSessionDao {
         Connection con = DatabaseConnection.getDatabaseConnection();
         PreparedStatement ps = con.prepareStatement("update lecture_sessions set lecture_session_group_id=?, "
                 + " lecture_session_group_name=?, lecture_session_no_of_students=?, lecture_session_duration=?,"
-                + " lecture_session_detail=? where lecture_session_id=?");
+                + " lecture_session_detail=?, lecture_sessions_generated_ses_name=? where lecture_session_id=?");
         ps.setInt(1, lectureSession.getGroupId());
         ps.setString(2, lectureSession.getGroupName());
         ps.setString(3, lectureSession.getNoOfStudents());
         ps.setString(4, lectureSession.getDuration());
         ps.setString(5, lectureSession.getDetail());
-        ps.setInt(6, lectureSession.getId());
+        ps.setString(6, lectureSession.getGeneratedSessionName());
+        ps.setInt(7, lectureSession.getId());
         ps.executeUpdate();
         ps.close();
         return true;
