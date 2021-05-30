@@ -102,7 +102,6 @@ public class add_view_lecturer_profile extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add/View   Lecturer");
-        setMaximumSize(new java.awt.Dimension(491, 672));
         setMinimumSize(new java.awt.Dimension(491, 672));
         setResizable(false);
 

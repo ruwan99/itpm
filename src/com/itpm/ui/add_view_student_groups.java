@@ -144,7 +144,6 @@ public class add_view_student_groups extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Manage Student Groups");
-        setMaximumSize(new java.awt.Dimension(1368, 718));
         setMinimumSize(new java.awt.Dimension(1368, 718));
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 153));
