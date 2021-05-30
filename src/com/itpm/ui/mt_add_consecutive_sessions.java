@@ -44,18 +44,9 @@ public class mt_add_consecutive_sessions extends javax.swing.JFrame {
         }
     }
 
-    private void loadSessionsToCombo() {
-        try {
-            ResultSet rset = new SessionsDaoImpl().getAllSessions();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(mt_add_consecutive_sessions.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     private void loadDataToTable() {
         try {
-            ResultSet rset = new SessionsDaoImpl().getAllSessions();
+            ResultSet rset = new SessionsDaoImpl().getSessionBySessionType(CommonConstants.CONSECUTIVE);
             String[] columnList = {"consecutive_sessions_id", "consecutive_sessions_tag_name", "consecutive_sessions_day",
                 "consecutive_sessions_start_time_hour", "consecutive_sessions_start_time_minutes", "consecutive_sessions_start_time_am_pm",
                 "consecutive_sessions_end_time_hour", "consecutive_sessions_end_time_minutes", "consecutive_sessions_end_time_am_pm"

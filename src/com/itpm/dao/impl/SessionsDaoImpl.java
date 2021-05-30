@@ -6,6 +6,7 @@
 package com.itpm.dao.impl;
 
 import com.itpm.connection.DatabaseConnection;
+import com.itpm.core.CommonConstants;
 import com.itpm.dao.SessionsDao;
 import com.itpm.model.Session;
 import java.sql.Connection;
@@ -104,6 +105,10 @@ public class SessionsDaoImpl implements SessionsDao {
     @Override
     public ResultSet getSessionByOneAttribute(String attribute, String condition, String value) throws SQLException {
         return new CommonDaoImpl().getResultByAttribute(selectQuery, attribute, condition, value);
+    }
+
+    public ResultSet getSessionBySessionType(String type) throws SQLException {
+        return new CommonDaoImpl().getResultByAttribute(selectQuery, "consecutive_sessions_session_type", CommonConstants.sql.EQUAL, type);
     }
 
 }

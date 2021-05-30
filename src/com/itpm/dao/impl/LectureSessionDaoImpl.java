@@ -76,5 +76,7 @@ public class LectureSessionDaoImpl implements LectureSessionDao {
     public ResultSet getLectureSessionByOneAttribute(String attribute, String condition, String value) throws SQLException {
         return new CommonDaoImpl().getResultByAttribute(selectQuery, attribute, condition, value);
     }
+    
+    
 
 }
