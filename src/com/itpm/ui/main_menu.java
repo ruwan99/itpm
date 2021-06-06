@@ -712,7 +712,7 @@ public class main_menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        new time_table_students().setVisible(true);
+        new hd_time_table_location().setVisible(true);
     }//GEN-LAST:event_jLabel7MouseClicked
 
     /**
